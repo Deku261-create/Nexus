@@ -1,26 +1,23 @@
-// === SITE CONFIGURATION ===
-const sitename = "Nexus";       // Site name displayed in title and header
-const subtext = "v1.2";         // Subtitle or version info
-const serverUrl1 = "https://gms.parcoil.com"; // Game asset server
+// This changes the title of your site
 
-// === PAGE TITLE UPDATE ===
-document.title = `${document.title} | ${sitename}`;
+var sitename = "Nexus"; // Change this to change the name of your website.
+var subtext = "v1.2"; // set the subtext
 
-// === HEADER TEXT UPDATE ===
-const titleEl = document.getElementById("title");
-const subtitleEl = document.getElementById("subtitle");
+// more settings in main.css
 
-if (titleEl) titleEl.textContent = sitename;
-if (subtitleEl) subtitleEl.textContent = subtext;
+// END CONFIG
+// DO NOT MODIFY IF YOU DO NOT KNOW WHAT YOU'RE DOING!
 
-// === GAME DISPLAY LOGIC ===
-let gamesData = [];
+import "/./config/custom.js";
+
+var serverUrl1 = "https://gms.parcoil.com";
+var currentPageTitle = document.title;
+document.title = `${currentPageTitle} | ${sitename}`;
+let gamesData = []; 
 
 function displayFilteredGames(filteredGames) {
   const gamesContainer = document.getElementById("gamesContainer");
-  if (!gamesContainer) return;
-
-  gamesContainer.innerHTML = "";
+  gamesContainer.innerHTML = ""; 
 
   filteredGames.forEach((game) => {
     const gameDiv = document.createElement("div");
@@ -42,29 +39,27 @@ function displayFilteredGames(filteredGames) {
   });
 }
 
-// === SEARCH HANDLER ===
 function handleSearchInput() {
-  const searchInput = document.getElementById("searchInput");
-  if (!searchInput) return;
-
-  const searchValue = searchInput.value.toLowerCase();
+  const searchInputValue = document
+    .getElementById("searchInput")
+    .value.toLowerCase();
   const filteredGames = gamesData.filter((game) =>
-    game.name.toLowerCase().includes(searchValue)
+    game.name.toLowerCase().includes(searchInputValue)
   );
   displayFilteredGames(filteredGames);
 }
 
-// === FETCH GAME DATA ===
-fetch("./config/games.json")
+fetch("./config/games.json") 
   .then((response) => response.json())
   .then((data) => {
     gamesData = data;
-    displayFilteredGames(data);
+    displayFilteredGames(data); 
   })
   .catch((error) => console.error("Error fetching games:", error));
 
-// === SEARCH EVENT LISTENER ===
-const searchInput = document.getElementById("searchInput");
-if (searchInput) {
-  searchInput.addEventListener("input", handleSearchInput);
-}
+document
+  .getElementById("searchInput")
+  .addEventListener("input", handleSearchInput);
+
+document.getElementById("title").innerHTML = `${sitename}`;
+document.getElementById("subtitle").innerHTML = `${subtext}`;
